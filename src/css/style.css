@@ -17,22 +17,41 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    /* When touching, no zooming on phone */
+    touch-action: manipulation; 
 }
 
 .vertical-center {
     width: 100%;
+    cursor: pointer;
 }
 
 .word-container {
     display: flex;
-    font-size: 50px;
+    /* Scalable font-size: min. 30px, ideal 10vw, max. 80px */
+    font-size: clamp(30px, 10vw, 80px); 
     font-family: "Montserrat", sans-serif;
     color: white;
-    border-top: 1px solid var(--word-color);
-    border-bottom: 1px solid var(--word-color);
-    padding: 20px 0;
+    border-top: 1px solid rgba(233, 236, 239, 0.5);
+    border-bottom: 1px solid rgba(233, 236, 239, 0.5);
+    padding: 40px 0;
     letter-spacing: -2px;
+    position: relative;
 }
+
+.word-container::before,
+.word-container::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 2px;
+    height: 15px;
+    background-color: var(--primary-color);
+    transform: translateX(-50%);
+}
+
+.word-container::before { top: 0; }
+.word-container::after { bottom: 0; }
 
 .side {
     flex: 1;
