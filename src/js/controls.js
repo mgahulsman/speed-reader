@@ -7,9 +7,10 @@ const msPerWord = (60 / wpm) * 1000;
 const filePath = '../text-files/test.txt';
 
 async function init() {
+    // Gebruikt de lader uit textLoader.js
     words = await fetchWords(filePath);
     if (words.length > 0) {
-        displayWord("Ready?")
+        displayWord("Ready?");
     }
 }
 
@@ -22,6 +23,7 @@ function toggleReader() {
         isPlaying = true;
         timer = setInterval(() => {
             if (currentIndex < words.length) {
+                // Toont het woord via de weergave-logica
                 displayWord(words[currentIndex]);
                 currentIndex++;
             } else {
@@ -42,23 +44,58 @@ function navigate(direction) {
     displayWord(words[currentIndex]);
 }
 
-// Toetsenbord bediening
+/**
+ * Navigeert naar het begin van de vorige of volgende zin.
+ * @param {number} direction -1 voor vorige zin, 1 voor volgende zin.
+ */
+function navigateSentence(direction) {
+    stopReader();
+    if (words.length === 0) return;
+
+    if (direction < 0) {
+        // Zoek naar het einde van de zin vóór de huidige zin
+        let i = currentIndex - 2; 
+        while (i >= 0 && !/[.!?]$/.test(words[i])) {
+            i--;
+        }
+        currentIndex = i + 1;
+    } else {
+        // Zoek naar het einde van de huidige zin
+        let i = currentIndex;
+        while (i < words.length - 1 && !/[.!?]$/.test(words[i])) {
+            i++;
+        }
+        currentIndex = Math.min(words.length - 1, i + 1);
+    }
+    
+    currentIndex = Math.max(0, currentIndex);
+    displayWord(words[currentIndex]);
+}
+
+// Keybors control
 window.addEventListener('keydown', (e) => {
     switch(e.code) {
         case 'Space':
-            e.preventDefault(); // Voorkom scrollen
+            e.preventDefault(); 
             toggleReader();
             break;
         case 'ArrowLeft':
-            navigate(-1);
+            if (e.shiftKey) {
+                navigateSentence(-1);
+            } else {
+                navigate(-1);
+            }
             break;
         case 'ArrowRight':
-            navigate(1);
+            if (e.shiftKey) {
+                navigateSentence(1);
+            } else {
+                navigate(1);
+            }
             break;
     }
 });
 
-// Mobiele klik bediening
 document.body.addEventListener('click', () => {
     toggleReader();
 });
