@@ -4,7 +4,7 @@
 */
 
 const target = document.getElementById('word-target');
-const wpm = 300; 
+const wpm = 800; 
 const msPerWord = (60 / wpm) * 1000;
 const filePath = '../text-files/test.txt';
 
@@ -27,16 +27,17 @@ async function startReader() {
         }, msPerWord);
 
     } catch (error) {
-        target.innerHTML = "Fout bij laden van tekst.";
+        target.innerHTML = "Error while loading the file.";
         console.error(error);
     }
 }
 
 function displayWord(word) {
-    const middleIndex = Math.floor(word.length / 2);
-    const leftPart = word.substring(0, middleIndex);
-    const middleLetter = word.substring(middleIndex, middleIndex + 1);
-    const rightPart = word.substring(middleIndex + 1);
+    // This function should be revised by searching what the best thing is to do according to research.
+    const one_third_index = Math.floor(word.length / 3); // We're showing the one third letter
+    const leftPart = word.substring(0, one_third_index);
+    const middleLetter = word.substring(one_third_index, one_third_index + 1);
+    const rightPart = word.substring(one_third_index + 1);
 
     target.innerHTML = `
         <span class="side left">${leftPart}</span>
