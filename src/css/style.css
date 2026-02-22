@@ -50,5 +50,4 @@ body {
 .middle-letter {
     color: var(--primary-color);
     flex: 0 0 auto;
-    text-align: center;
 }
