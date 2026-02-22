@@ -1,10 +1,27 @@
+:root {
+    --backgroud-color: #212529;
+    --word-color: #e9ecef;
+    --primary-color: #ae2012;
+}
+
+*{
+    background-color: var(--backgroud-color);
+}
+
 .center{
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 80vh;
+    width: 100%;
 }
 
 p {
+    width: 100%;
+    color: white;
+    border-top: 1px solid var(--word-color);
+    border-bottom: 1px solid var(--word-color);
+    padding: 20px;
+    text-align: center;
     font-size: 50px;
+    font-family: "Montserrat", sans-serif;
 }
